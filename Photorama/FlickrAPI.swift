@@ -19,11 +19,11 @@ struct FlickrAPI {
         
         private static let apiKey = "a6d819499131071f158fd740860a5a88"
         
-        private static func flickURL(method: Method, parameters: [String: String]?) -> NSURL? {
+        private static func flickrURL(method: Method, parameters: [String: String]?) -> URL?{
                 
                 let components = NSURLComponents(string: baseURLString)
                 
-                var queryItems = [NSURLQueryItem]()
+                var queryItems = [URLQueryItem]()
                 
                 let baseParams = [
                         "method" : method.rawValue,
@@ -34,27 +34,28 @@ struct FlickrAPI {
                 ]
                 
                 for (key, value) in baseParams {
-                        let item = NSURLQueryItem(name: key, value: value)
+                        let item = URLQueryItem(name: key, value: value)
                         queryItems.append(item)
                         
                 }
+                
                 if let additionalParams = parameters {
                         for (key, value) in additionalParams {
-                                let item = NSURLQueryItem(name: key, value: value)
+                                let item = URLQueryItem(name: key, value: value)
                                 queryItems.append(item)
                                 
                         }
                 }
                 
-                components?.queryItems = queryItems as [URLQueryItem]?
+                components?.queryItems = queryItems
                 
-                return components?.url! as NSURL?
+                return components?.url!
                 
         }
         
-        static func recentPhotosURL() -> NSURL {
+        static func recentPhotosURL() -> URL {
                 
-                return flickURL(method: .recentPhotos, parameters: ["extras" : "url_h,date_taken"])!
+                return flickrURL(method: .recentPhotos, parameters: ["extras" : "url_h,date_taken"])!
                 
                 
         }
